@@ -1,4 +1,3 @@
-import React from 'react';
 import './ReactionDetails.css';
 import { classifyReactionType } from '../lib/reactionKnowledge';
 import { findReactionInfo } from '../lib/reactionDatabase';
@@ -10,8 +9,16 @@ export const ReactionDetails = ({ equation }) => {
     const parsedEquation = parseEquationString(equation);
     if (!parsedEquation) return null;
 
-    const reactionClass = classifyReactionType(parsedEquation);
-    const dbInfo = findReactionInfo(parsedEquation);
+    // Strip coefficients (leading numbers) so matching algorithms work
+    const stripCoeffs = (arr) => arr.map(mol => mol.replace(/^[0-9]+/, ''));
+
+    const cleanParsed = {
+        reactants: stripCoeffs(parsedEquation.reactants),
+        products: stripCoeffs(parsedEquation.products)
+    };
+
+    const reactionClass = classifyReactionType(cleanParsed);
+    const dbInfo = findReactionInfo(cleanParsed);
 
     // We always show the classification at least.
     return (
