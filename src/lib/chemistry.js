@@ -6,8 +6,6 @@
  * @returns {Record<string, number>}
  */
 export function parseFormula(formula) {
-  const elements = {};
-
   // Helper to multiply a molecule map
   const multiplyMap = (map, multiplier) => {
     Object.keys(map).forEach(key => {

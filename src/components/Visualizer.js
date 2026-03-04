@@ -402,7 +402,6 @@ export function Visualizer({ equation, state, coeffs }) {
         if (!parsed) return;
 
         let isStale = false;
-        let breakingTimer, productsMovingTimer, formingTimer;
 
         async function loadModelsAndRender() {
             const rAtoms = [];
