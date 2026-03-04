@@ -158,15 +158,17 @@ export function processEquation(equationStr) {
   for (let r = 0; r < numRows; r++) {
     if (numCols <= lead) break;
     let i = r;
-    while (matrix[i][lead] === 0) {
+    while (Math.abs(matrix[i][lead]) < 1e-9) {
       i++;
       if (numRows === i) {
         i = r;
         lead++;
-        if (numCols === lead) r--; // break logic
-        break;
+        if (numCols === lead) {
+          break;
+        }
       }
     }
+    if (numCols === lead) break;
     if (numCols > lead && matrix[i] && matrix[r]) {
       // Swap rows i and r
       let temp = matrix[i];
