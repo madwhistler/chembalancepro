@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { EquationInput } from './components/EquationInput';
 import { Visualizer } from './components/Visualizer';
+import { ReactionDetails } from './components/ReactionDetails';
 import { processEquation } from './lib/chemistry';
 
 function App() {
@@ -66,6 +67,10 @@ function App() {
             state={balancedData?.state}
             coeffs={balancedData?.coeffs}
           />
+
+          {balancedData?.state === 'balanced' && (
+            <ReactionDetails equation={balancedData.balancedEq} />
+          )}
         </section>
       </main>
     </div>
