@@ -1,0 +1,326 @@
+.visualizer-container {
+    width: 100%;
+    height: 400px;
+    background: rgba(15, 15, 20, 0.4);
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    backdrop-filter: blur(10px);
+    touch-action: none;
+}
+
+.visualizer-container.empty {
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    background: transparent;
+    box-shadow: none;
+}
+
+.status-text {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    font-family: 'Inter', sans-serif;
+}
+
+.status-text.error {
+    color: #ff4b2b;
+}
+
+.scene-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, rgba(30, 30, 40, 0.5) 0%, transparent 70%);
+    z-index: 1;
+}
+
+.energy-field {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    transform: translate(-50%, -50%) scale(0.5);
+    background: radial-gradient(circle at center, rgba(162, 0, 255, 0.3) 0%, transparent 60%);
+    opacity: 0;
+    border-radius: 50%;
+    z-index: 2;
+    transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    filter: blur(10px);
+}
+
+.energy-field.active {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.5);
+    background: radial-gradient(circle at center, rgba(0, 255, 213, 0.2) 0%, transparent 70%);
+    animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+    0% {
+        transform: translate(-50%, -50%) scale(1.4);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1.6);
+        opacity: 1;
+    }
+}
+
+.atoms-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+}
+
+.atom-node {
+    position: absolute;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 1.2s cubic-bezier(0.42, 0, 0.17, 1);
+    transform: translate(-50%, -50%);
+}
+
+/* Tooltips */
+.molecule-tooltip-anchor {
+    position: absolute;
+    width: 0;
+    height: 0;
+    z-index: 20;
+    pointer-events: none;
+}
+
+.tooltip {
+    position: absolute;
+    bottom: 40px;
+    /* Offset above the molecule's expected center */
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: rgba(10, 10, 15, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    padding: 6px 12px;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    backdrop-filter: blur(4px);
+}
+
+.tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.15) transparent transparent transparent;
+}
+
+/* Trigger hover using the interactive atoms wrapper logic */
+.atoms-layer:has(.atom-node.interactive:hover)~.molecule-tooltip-anchor .tooltip,
+.atom-node.interactive:hover,
+.atom-node.interactive:hover+.atom-node,
+.molecule-tooltip-anchor.active .tooltip {
+    /* Pure CSS hover mapping is tricky with flat DOM structure.
+      Alternative approach: apply a sibling selector hack based on DOM layout, 
+      or handle hover in JS if complex. We chose JS-anchored DOM structure for simplicity but
+      we need a wrapper to trigger exactly on that molecule's atoms.
+   */
+}
+
+/* Because our DOM is flattened for performance, we apply a clever CSS trick:
+   Molecules group by layout visually, but we can't easily map :hover across siblings identically.
+   Instead, we'll let the bounding box div handle hover.
+*/
+
+.molecule-tooltip-anchor {
+    width: 80px;
+    height: 80px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    pointer-events: auto;
+    /* Let it catch hovers in the center */
+}
+
+.molecule-tooltip-anchor:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Dragging interactions */
+.atom-node.interactive {
+    cursor: grab;
+    pointer-events: auto;
+    /* Ensure it triggers above tooltip anchors */
+}
+
+.atom-node.interactive:hover {
+    filter: brightness(1.2);
+}
+
+.atom-node.dragging {
+    cursor: grabbing;
+    z-index: 100;
+    filter: brightness(1.4);
+}
+
+.atom-node::before {
+    content: '';
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    width: 30%;
+    height: 30%;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    filter: blur(1px);
+}
+
+.atom-label {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 11px;
+    font-weight: bold;
+    font-family: 'Inter', sans-serif;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    user-select: none;
+    pointer-events: none;
+}
+
+.bonds-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.bond {
+    position: absolute;
+    transform-origin: center center;
+}
+
+.bond-single {
+    height: 4px;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 2px;
+}
+
+.bond-double {
+    height: 10px;
+    border-top: 3px solid rgba(255, 255, 255, 0.6);
+    border-bottom: 3px solid rgba(255, 255, 255, 0.6);
+    background-color: transparent;
+}
+
+.bond-triple {
+    height: 16px;
+    border-top: 3px solid rgba(255, 255, 255, 0.6);
+    border-bottom: 3px solid rgba(255, 255, 255, 0.6);
+    background-color: transparent;
+    position: relative;
+}
+
+.bond-triple::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: rgba(255, 255, 255, 0.6);
+    transform: translateY(-50%);
+}
+
+/* Playback Controls */
+.playback-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(10, 10, 15, 0.6);
+    padding: 8px 16px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 50;
+    backdrop-filter: blur(10px);
+}
+
+.play-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.play-btn:hover:not(:disabled) {
+    opacity: 1;
+}
+
+.play-btn:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+}
+
+.step-indicator {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.step-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: background 0.3s;
+}
+
+.step-dot.active {
+    background: #00ffd5;
+    box-shadow: 0 0 8px #00ffd5;
+}
+
+.step-line {
+    width: 20px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.2);
+    transition: background 0.3s;
+}
+
+.step-line.active {
+    background: #00ffd5;
+}
