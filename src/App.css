@@ -66,6 +66,7 @@ body {
   font-weight: 700;
   background: linear-gradient(135deg, #fff 0%, #a2d2ff 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 10px;
   letter-spacing: -0.02em;
@@ -154,28 +155,38 @@ body {
   }
 }
 
-.credit-link {
+.credit-container {
   position: absolute;
   top: 20px;
   left: 20px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  text-decoration: none;
+  gap: 15px;
   z-index: 100;
-  opacity: 0.8;
-  transition: opacity 0.3s ease;
   background: rgba(10, 10, 15, 0.4);
-  padding: 8px 12px;
+  padding: 8px 16px;
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
 }
 
-.credit-link:hover {
-  opacity: 1;
+.credit-container:hover {
   background: rgba(10, 10, 15, 0.6);
   border-color: rgba(255, 255, 255, 0.15);
+}
+
+.credit-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.credit-inner:hover {
+  opacity: 1;
 }
 
 .credit-text {
@@ -184,9 +195,52 @@ body {
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  white-space: nowrap;
 }
 
 .credit-logo {
-  height: 100px;
+  height: 80px;
   width: auto;
+  transition: transform 0.3s ease;
+}
+
+.credit-logo:hover {
+  transform: scale(1.05);
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .credit-container {
+    position: relative;
+    top: auto;
+    left: auto;
+    margin-top: 20px;
+    align-self: center;
+  }
+
+  .credit-logo {
+    height: 60px;
+  }
+}
+
+@media (max-width: 600px) {
+  .credit-container {
+    flex-direction: column;
+    text-align: center;
+    border-radius: 15px;
+    padding: 12px 20px;
+    gap: 8px;
+  }
+
+  .credit-logo {
+    height: 45px;
+  }
+
+  .header h1 {
+    font-size: 2.2rem;
+  }
+
+  .main-content {
+    padding-top: 10px;
+  }
 }

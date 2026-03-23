@@ -30,13 +30,15 @@ function App() {
 
   return (
     <div className={`App ${balancedData?.state === 'balanced' ? 'active-theme' : ''}`}>
-      <a href="https://hexational.com" target="_blank" rel="noopener noreferrer" className="credit-link">
-        <span className="credit-text">App by</span>
-        <img src="/hexational-logo.png" alt="Hexational Software" className="credit-logo" />
-        <a href="https://hexational.com/giving-page-1-1" target="_blank" rel="noreferrer">
+      <div className="credit-container">
+        <a href="https://hexational.com" target="_blank" rel="noopener noreferrer" className="credit-inner">
+          <span className="credit-text">App by</span>
+          <img src="/hexational-logo.png" alt="Hexational Software" className="credit-logo" />
+        </a>
+        <a href="https://hexational.com/giving-page-1-1" target="_blank" rel="noreferrer" className="credit-inner">
           <span className="credit-text">Buy me a CH3CH2OH?</span>
         </a>
-      </a>
+      </div>
 
       <div className="bg-glow"></div>
 
