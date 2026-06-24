@@ -5,6 +5,17 @@ import { Visualizer } from './components/Visualizer';
 import { ReactionDetails } from './components/ReactionDetails';
 import { processEquation } from './lib/chemistry';
 
+function formatEquation(eq) {
+  // Split on digits that follow a letter or closing paren (subscripts) vs. all other chars
+  return eq.split(/([A-Za-z)][0-9]+)/).map((part, i) => {
+    const match = part.match(/^([A-Za-z)])([0-9]+)$/);
+    if (match) {
+      return <React.Fragment key={i}>{match[1]}<sub>{match[2]}</sub></React.Fragment>;
+    }
+    return part;
+  });
+}
+
 function App() {
   const [equation, setEquation] = useState('');
   const [balancedData, setBalancedData] = useState(null);
@@ -59,7 +70,7 @@ function App() {
             <div className="balanced-result">
               <span className="badge">Balanced Equation</span>
               <div className="equation-display">
-                {balancedData.balancedEq}
+                {formatEquation(balancedData.balancedEq)}
               </div>
             </div>
           )}
