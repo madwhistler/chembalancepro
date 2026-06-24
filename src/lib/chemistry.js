@@ -114,8 +114,15 @@ export function processEquation(equationStr) {
     return { balancedEq: equationStr, state: 'invalid' };
   }
 
-  // Reject molecules that have a misplaced coefficient (a number not following a letter or closing parenthesis)
-  const hasInvalidCoefficient = (mol) => /(^|[^A-Za-z0-9)])[0-9]/.test(mol);
+  // Strip leading stoichiometric coefficients (e.g. "2HCl" -> "HCl") — user may type
+  // a pre-balanced equation; we rebalance from scratch so the coefficients are ignored.
+  const stripLeading = (mol) => mol.replace(/^[0-9]+/, '');
+  parsed.reactants = parsed.reactants.map(stripLeading);
+  parsed.products = parsed.products.map(stripLeading);
+
+  // Reject molecules that still have a digit not following a letter or closing paren
+  // (e.g. embedded misplaced numbers like "H3+2O")
+  const hasInvalidCoefficient = (mol) => /[^A-Za-z0-9)][0-9]/.test(mol);
   if (parsed.reactants.some(hasInvalidCoefficient) || parsed.products.some(hasInvalidCoefficient)) {
     return { balancedEq: equationStr, state: 'invalid' };
   }
