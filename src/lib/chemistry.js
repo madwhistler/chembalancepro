@@ -68,6 +68,10 @@ export function parseFormula(formula) {
  * @returns {{ reactants: string[], products: string[] } | null}
  */
 export function parseEquationString(equationStr) {
+  // Normalize smart/curly dashes and Unicode arrows that mobile keyboards may insert
+  equationStr = equationStr
+    .replace(/[–—]/g, '-')      // en-dash, em-dash → hyphen
+    .replace(/→|⟶|➜|➝/g, '->'); // Unicode arrow variants → ASCII arrow
   const sides = equationStr.split(/->|==?|=>/);
   if (sides.length !== 2) return null;
 
@@ -107,6 +111,12 @@ export function processEquation(equationStr) {
   if (!parsed) return { balancedEq: equationStr, state: 'invalid' };
 
   if (parsed.reactants.length === 0 || parsed.products.length === 0) {
+    return { balancedEq: equationStr, state: 'invalid' };
+  }
+
+  // Reject molecules that have a misplaced coefficient (a number not following a letter or closing parenthesis)
+  const hasInvalidCoefficient = (mol) => /(^|[^A-Za-z0-9)])[0-9]/.test(mol);
+  if (parsed.reactants.some(hasInvalidCoefficient) || parsed.products.some(hasInvalidCoefficient)) {
     return { balancedEq: equationStr, state: 'invalid' };
   }
 

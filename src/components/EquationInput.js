@@ -16,6 +16,8 @@ export function EquationInput({ value, onChange, placeholder, error }) {
                     onBlur={() => setIsFocused(false)}
                     spellCheck="false"
                     autoComplete="off"
+                    autoCorrect="off"
+                    autoCapitalize="none"
                 />
                 <div className="input-focus-ring"></div>
             </div>
