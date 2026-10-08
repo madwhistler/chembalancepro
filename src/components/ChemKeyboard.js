@@ -4,12 +4,20 @@ import './ChemKeyboard.css';
 const LETTERS = 'ABCDEFGHIKLMNOPRSTUVWXYZ'.split('');
 const DIGITS = ['1','2','3','4','5','6','7','8','9','0'];
 
-export function ChemKeyboard({ onKey, onDismiss }) {
+export function ChemKeyboard({ onKey, onDismiss, suppressBlurRef }) {
+    const press = (fn) => (e) => {
+        e.preventDefault();
+        if (suppressBlurRef) suppressBlurRef.current = true;
+        fn();
+        // Clear the flag after the blur event window has passed
+        setTimeout(() => { if (suppressBlurRef) suppressBlurRef.current = false; }, 50);
+    };
+
     const key = (label, value, cls = '') => (
         <button
             key={label}
             className={`ck-key ${cls}`}
-            onPointerDown={(e) => { e.preventDefault(); onKey(value ?? label); }}
+            onPointerDown={press(() => onKey(value ?? label))}
         >
             {label}
         </button>
@@ -38,7 +46,7 @@ export function ChemKeyboard({ onKey, onDismiss }) {
                 {key('⌫', 'BACKSPACE', 'ck-action ck-back')}
                 <button
                     className="ck-key ck-action ck-done"
-                    onPointerDown={(e) => { e.preventDefault(); onDismiss?.(); }}
+                    onPointerDown={press(() => onDismiss?.())}
                 >
                     Done
                 </button>

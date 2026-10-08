@@ -811,7 +811,7 @@ export function Visualizer({ equation, state, coeffs }) {
 
     return (
         <div
-            className="visualizer-container"
+            className="visualizer-container active"
             ref={containerRef}
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
