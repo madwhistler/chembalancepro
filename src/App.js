@@ -19,25 +19,37 @@ function formatEquation(eq) {
 function App() {
   const [equation, setEquation] = useState('');
   const [balancedData, setBalancedData] = useState(null);
+  const [committed, setCommitted] = useState(false);
 
   useEffect(() => {
     if (!equation.trim()) {
       setBalancedData(null);
+      setCommitted(false);
       return;
     }
 
     const timer = setTimeout(() => {
       const result = processEquation(equation);
       setBalancedData(result);
-    }, 500); // Debounce typing
+    }, 500);
 
     return () => clearTimeout(timer);
   }, [equation]);
 
-  const error = balancedData?.state === 'impossible' ? 'Reaction is mathematically impossible.'
+  const handleCommit = () => setCommitted(true);
+
+  const handleEquationChange = (val) => {
+    setEquation(val);
+    setCommitted(false);
+  };
+
+  const showError = committed || typeof window === 'undefined' || !window.matchMedia('(pointer: coarse)').matches;
+
+  const error = !showError ? null
+    : balancedData?.state === 'impossible' ? 'Reaction is mathematically impossible.'
     : balancedData?.state === 'typo_zero' ? 'Check your formula: Did you type a zero "0" instead of the letter "O" (Oxygen)?'
-      : balancedData?.state === 'invalid' && equation.length > 3 ? 'Invalid syntax. Example: H2 + O2 -> H2O'
-        : null;
+    : balancedData?.state === 'invalid' && equation.length > 3 ? 'Invalid syntax. Example: H2 + O2 -> H2O'
+    : null;
 
   return (
     <div className={`App ${balancedData?.state === 'balanced' ? 'active-theme' : ''}`}>
@@ -62,7 +74,8 @@ function App() {
         <section className="interaction-area">
           <EquationInput
             value={equation}
-            onChange={setEquation}
+            onChange={handleEquationChange}
+            onCommit={handleCommit}
             error={error}
           />
 

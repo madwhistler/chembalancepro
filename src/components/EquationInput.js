@@ -5,7 +5,7 @@ import './EquationInput.css';
 const mobile =
     typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches;
 
-export function EquationInput({ value, onChange, placeholder, error }) {
+export function EquationInput({ value, onChange, onCommit, placeholder, error }) {
     const [isFocused, setIsFocused] = useState(false);
     const [showKeyboard, setShowKeyboard] = useState(false);
     const inputRef = useRef(null);
@@ -64,6 +64,7 @@ export function EquationInput({ value, onChange, placeholder, error }) {
                         value={value}
                         onChange={(e) => onChange(e.target.value)}
                         placeholder={placeholder || 'Enter equation (e.g. H2 + O2 -> H2O)'}
+                        onKeyDown={(e) => { if (e.key === 'Enter') onCommit?.(); }}
                         onFocus={() => {
                             setIsFocused(true);
                             if (mobile) setShowKeyboard(true);
@@ -89,7 +90,7 @@ export function EquationInput({ value, onChange, placeholder, error }) {
             {mobile && showKeyboard && (
                 <ChemKeyboard
                     onKey={handleKey}
-                    onDismiss={() => { setShowKeyboard(false); setIsFocused(false); }}
+                    onDismiss={() => { setShowKeyboard(false); setIsFocused(false); onCommit?.(); }}
                     suppressBlurRef={suppressBlur}
                 />
             )}
