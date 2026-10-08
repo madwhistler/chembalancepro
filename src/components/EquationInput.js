@@ -69,6 +69,9 @@ export function EquationInput({ value, onChange, onCommit, placeholder, error })
                             setIsFocused(true);
                             if (mobile) setShowKeyboard(true);
                         }}
+                        onClick={() => {
+                            if (mobile) setShowKeyboard(true);
+                        }}
                         onBlur={() => {
                             if (suppressBlur.current) return;
                             setIsFocused(false);

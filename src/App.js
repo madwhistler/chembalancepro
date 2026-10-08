@@ -43,16 +43,20 @@ function App() {
     setCommitted(false);
   };
 
-  const showError = committed || typeof window === 'undefined' || !window.matchMedia('(pointer: coarse)').matches;
+  const isMobileDevice = typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches;
+  // On mobile, show nothing until the user taps Done
+  const showResult = !isMobileDevice || committed;
 
-  const error = !showError ? null
+  const error = !showResult ? null
     : balancedData?.state === 'impossible' ? 'Reaction is mathematically impossible.'
     : balancedData?.state === 'typo_zero' ? 'Check your formula: Did you type a zero "0" instead of the letter "O" (Oxygen)?'
     : balancedData?.state === 'invalid' && equation.length > 3 ? 'Invalid syntax. Example: H2 + O2 -> H2O'
     : null;
 
+  const showBalanced = showResult && balancedData?.state === 'balanced';
+
   return (
-    <div className={`App ${balancedData?.state === 'balanced' ? 'active-theme' : ''}`}>
+    <div className={`App ${showBalanced ? 'active-theme' : ''}`}>
       <div className="credit-container">
         <a href="https://hexational.com" target="_blank" rel="noopener noreferrer" className="credit-inner">
           <span className="credit-text">App by</span>
@@ -79,7 +83,7 @@ function App() {
             error={error}
           />
 
-          {balancedData?.state === 'balanced' && (
+          {showBalanced && (
             <div className="balanced-result">
               <span className="badge">Balanced Equation</span>
               <div className="equation-display">
@@ -90,11 +94,11 @@ function App() {
 
           <Visualizer
             equation={equation}
-            state={balancedData?.state}
+            state={showResult ? balancedData?.state : null}
             coeffs={balancedData?.coeffs}
           />
 
-          {balancedData?.state === 'balanced' && (
+          {showBalanced && (
             <ReactionDetails equation={balancedData.balancedEq} />
           )}
         </section>
