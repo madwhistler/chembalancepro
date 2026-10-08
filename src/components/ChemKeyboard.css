@@ -1,0 +1,101 @@
+.chem-keyboard {
+    position: fixed;
+    bottom: env(safe-area-inset-bottom, 0px);
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: #1a1a2e;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    padding: 8px 4px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    box-shadow: 0 -4px 24px rgba(0,0,0,0.5);
+}
+
+.ck-row {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+}
+
+.ck-row-action {
+    margin-top: 2px;
+}
+
+.ck-key {
+    min-width: 30px;
+    height: 42px;
+    padding: 0 6px;
+    border: none;
+    border-radius: 6px;
+    background: #2e2e4a;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    transition: background 0.1s;
+    flex: 1;
+    max-width: 38px;
+}
+
+.ck-key:active {
+    background: #4a4a7a;
+}
+
+.ck-digit {
+    background: #252540;
+    font-size: 0.95rem;
+}
+
+.ck-special {
+    background: #252540;
+    max-width: 42px;
+}
+
+.ck-shift {
+    background: #3a3a5c;
+    max-width: 44px;
+    font-size: 1.1rem;
+}
+
+.ck-shift-active {
+    background: #0062cc;
+}
+
+.ck-action {
+    height: 44px;
+    border-radius: 8px;
+    background: #2e2e4a;
+    font-size: 0.95rem;
+    max-width: none;
+    flex: 1;
+}
+
+.ck-arrow {
+    background: #00509e;
+    font-size: 1.1rem;
+    flex: 1.5;
+}
+
+.ck-space {
+    flex: 2;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.05em;
+}
+
+.ck-back {
+    background: #3a1a1a;
+    flex: 1.2;
+    font-size: 1.2rem;
+}
+
+.ck-done {
+    background: #005f33;
+    font-weight: 700;
+    flex: 1.2;
+}

@@ -195,6 +195,146 @@ const moleculeModels = {
         bonds: [
             { type: 'single', from: 'Na1', to: 'Cl1' }
         ]
+    },
+    'C2H5OH': {
+        name: 'Ethanol',
+        atoms: [
+            { id: 'C1', element: 'C', ox: -25, oy: 0 },
+            { id: 'C2', element: 'C', ox: 5, oy: 0 },
+            { id: 'O1', element: 'O', ox: 30, oy: -18 },
+            { id: 'H1', element: 'H', ox: -40, oy: -18 },
+            { id: 'H2', element: 'H', ox: -40, oy: 18 },
+            { id: 'H3', element: 'H', ox: -25, oy: 22 },
+            { id: 'H4', element: 'H', ox: 5, oy: -22 },
+            { id: 'H5', element: 'H', ox: 20, oy: 15 },
+            { id: 'H6', element: 'H', ox: 48, oy: -18 }
+        ],
+        bonds: [
+            { type: 'single', from: 'C1', to: 'C2' },
+            { type: 'single', from: 'C2', to: 'O1' },
+            { type: 'single', from: 'C1', to: 'H1' },
+            { type: 'single', from: 'C1', to: 'H2' },
+            { type: 'single', from: 'C1', to: 'H3' },
+            { type: 'single', from: 'C2', to: 'H4' },
+            { type: 'single', from: 'C2', to: 'H5' },
+            { type: 'single', from: 'O1', to: 'H6' }
+        ]
+    },
+    'H2O2': {
+        name: 'Hydrogen Peroxide',
+        atoms: [
+            { id: 'H1', element: 'H', ox: -35, oy: -10 },
+            { id: 'O1', element: 'O', ox: -14, oy: 0 },
+            { id: 'O2', element: 'O', ox: 14, oy: 0 },
+            { id: 'H2', element: 'H', ox: 35, oy: -10 }
+        ],
+        bonds: [
+            { type: 'single', from: 'H1', to: 'O1' },
+            { type: 'single', from: 'O1', to: 'O2' },
+            { type: 'single', from: 'O2', to: 'H2' }
+        ]
+    },
+    'C2H4': {
+        name: 'Ethylene',
+        atoms: [
+            { id: 'C1', element: 'C', ox: -18, oy: 0 },
+            { id: 'C2', element: 'C', ox: 18, oy: 0 },
+            { id: 'H1', element: 'H', ox: -35, oy: -18 },
+            { id: 'H2', element: 'H', ox: -35, oy: 18 },
+            { id: 'H3', element: 'H', ox: 35, oy: -18 },
+            { id: 'H4', element: 'H', ox: 35, oy: 18 }
+        ],
+        bonds: [
+            { type: 'double', from: 'C1', to: 'C2' },
+            { type: 'single', from: 'C1', to: 'H1' },
+            { type: 'single', from: 'C1', to: 'H2' },
+            { type: 'single', from: 'C2', to: 'H3' },
+            { type: 'single', from: 'C2', to: 'H4' }
+        ]
+    },
+    'C2H2': {
+        name: 'Acetylene',
+        atoms: [
+            { id: 'H1', element: 'H', ox: -44, oy: 0 },
+            { id: 'C1', element: 'C', ox: -18, oy: 0 },
+            { id: 'C2', element: 'C', ox: 18, oy: 0 },
+            { id: 'H2', element: 'H', ox: 44, oy: 0 }
+        ],
+        bonds: [
+            { type: 'single', from: 'H1', to: 'C1' },
+            { type: 'triple', from: 'C1', to: 'C2' },
+            { type: 'single', from: 'C2', to: 'H2' }
+        ]
+    },
+    'SO2': {
+        name: 'Sulfur Dioxide',
+        atoms: [
+            { id: 'S1', element: 'S', ox: 0, oy: 0 },
+            { id: 'O1', element: 'O', ox: -28, oy: 14 },
+            { id: 'O2', element: 'O', ox: 28, oy: 14 }
+        ],
+        bonds: [
+            { type: 'double', from: 'S1', to: 'O1' },
+            { type: 'double', from: 'S1', to: 'O2' }
+        ]
+    },
+    'HCl': {
+        name: 'Hydrochloric Acid',
+        atoms: [
+            { id: 'H1', element: 'H', ox: -18, oy: 0 },
+            { id: 'Cl1', element: 'Cl', ox: 18, oy: 0 }
+        ],
+        bonds: [
+            { type: 'single', from: 'H1', to: 'Cl1' }
+        ]
+    },
+    'NaOH': {
+        name: 'Sodium Hydroxide',
+        atoms: [
+            { id: 'Na1', element: 'Na', ox: -28, oy: 0 },
+            { id: 'O1', element: 'O', ox: 0, oy: 0 },
+            { id: 'H1', element: 'H', ox: 22, oy: 0 }
+        ],
+        bonds: [
+            { type: 'single', from: 'Na1', to: 'O1' },
+            { type: 'single', from: 'O1', to: 'H1' }
+        ]
+    },
+    'SO3': {
+        name: 'Sulfur Trioxide',
+        atoms: [
+            { id: 'S1', element: 'S', ox: 0, oy: 0 },
+            { id: 'O1', element: 'O', ox: 0, oy: -30 },
+            { id: 'O2', element: 'O', ox: 26, oy: 15 },
+            { id: 'O3', element: 'O', ox: -26, oy: 15 }
+        ],
+        bonds: [
+            { type: 'double', from: 'S1', to: 'O1' },
+            { type: 'double', from: 'S1', to: 'O2' },
+            { type: 'double', from: 'S1', to: 'O3' }
+        ]
+    },
+    'C2H6': {
+        name: 'Ethane',
+        atoms: [
+            { id: 'C1', element: 'C', ox: -18, oy: 0 },
+            { id: 'C2', element: 'C', ox: 18, oy: 0 },
+            { id: 'H1', element: 'H', ox: -35, oy: -18 },
+            { id: 'H2', element: 'H', ox: -35, oy: 18 },
+            { id: 'H3', element: 'H', ox: -18, oy: 24 },
+            { id: 'H4', element: 'H', ox: 35, oy: -18 },
+            { id: 'H5', element: 'H', ox: 35, oy: 18 },
+            { id: 'H6', element: 'H', ox: 18, oy: 24 }
+        ],
+        bonds: [
+            { type: 'single', from: 'C1', to: 'C2' },
+            { type: 'single', from: 'C1', to: 'H1' },
+            { type: 'single', from: 'C1', to: 'H2' },
+            { type: 'single', from: 'C1', to: 'H3' },
+            { type: 'single', from: 'C2', to: 'H4' },
+            { type: 'single', from: 'C2', to: 'H5' },
+            { type: 'single', from: 'C2', to: 'H6' }
+        ]
     }
 };
 
