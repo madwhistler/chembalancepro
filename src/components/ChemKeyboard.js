@@ -1,14 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './ChemKeyboard.css';
 
-const UPPER = 'ABCDEFGHIKLMNOPRSTUVWXYZ'.split('');
-const LOWER = 'abcdefghiklmnoprstuvwxyz'.split('');
+const LETTERS = 'ABCDEFGHIKLMNOPRSTUVWXYZ'.split('');
 const DIGITS = ['1','2','3','4','5','6','7','8','9','0'];
 
 export function ChemKeyboard({ onKey, onDismiss }) {
-    const [upper, setUpper] = useState(true);
-    const letters = upper ? UPPER : LOWER;
-
     const key = (label, value, cls = '') => (
         <button
             key={label}
@@ -22,19 +18,13 @@ export function ChemKeyboard({ onKey, onDismiss }) {
     return (
         <div className="chem-keyboard">
             <div className="ck-row">
-                {letters.slice(0, 8).map(l => key(l))}
+                {LETTERS.slice(0, 8).map(l => key(l))}
             </div>
             <div className="ck-row">
-                {letters.slice(8, 16).map(l => key(l))}
+                {LETTERS.slice(8, 16).map(l => key(l))}
             </div>
             <div className="ck-row">
-                {letters.slice(16).map(l => key(l))}
-                <button
-                    className={`ck-key ck-shift ${upper ? 'ck-shift-active' : ''}`}
-                    onPointerDown={(e) => { e.preventDefault(); setUpper(u => !u); }}
-                >
-                    {upper ? '⇧' : '⇩'}
-                </button>
+                {LETTERS.slice(16).map(l => key(l))}
             </div>
             <div className="ck-row">
                 {DIGITS.map(d => key(d, d, 'ck-digit'))}
