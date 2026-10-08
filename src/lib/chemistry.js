@@ -70,9 +70,14 @@ export function parseFormula(formula) {
 export function parseEquationString(equationStr) {
   // Normalize smart/curly dashes and Unicode arrows that mobile keyboards may insert
   equationStr = equationStr
-    .replace(/[–—]/g, '-')      // en-dash, em-dash → hyphen
-    .replace(/→|⟶|➜|➝/g, '->'); // Unicode arrow variants → ASCII arrow
-  const sides = equationStr.split(/->|==?|=>/);
+    .replace(/[–—]/g, '-')       // en-dash, em-dash → hyphen
+    .replace(/→|⟶|➜|➝/g, '->') // Unicode arrow variants → ASCII arrow
+    .replace(/\s*->\s*/g, ' -> ') // ensure spaces around arrow
+    .replace(/\s*=>\s*/g, ' => ')
+    .replace(/\s*==?\s*/g, ' = ')
+    .replace(/\s*\+\s*/g, ' + ') // ensure spaces around +
+    .trim();
+  const sides = equationStr.split(/->|=>|=/);
   if (sides.length !== 2) return null;
 
   const extractMolecules = (side) => {
