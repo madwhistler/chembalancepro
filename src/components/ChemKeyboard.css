@@ -56,6 +56,18 @@
     max-width: 42px;
 }
 
+.ck-shift {
+    background: #3a3a5c;
+    max-width: 52px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+.ck-shift-active {
+    background: #0062cc;
+}
+
 
 .ck-action {
     height: 44px;
